@@ -3,8 +3,10 @@ package br.com.cucha.meucartao
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.widget.EditText
 
 class EditorActivity : AppCompatActivity() {
@@ -12,6 +14,10 @@ class EditorActivity : AppCompatActivity() {
     lateinit var editNome: EditText
     lateinit var editEmail: EditText
     lateinit var editFone: EditText
+
+    companion object {
+        val REQUEST_CODE_GPS_PERMISSION = 1001
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +29,30 @@ class EditorActivity : AppCompatActivity() {
 
         findViewById(R.id.button_salvar_editor).setOnClickListener {
             salvaCartao()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val selfPermission = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if(selfPermission == PackageManager.PERMISSION_GRANTED) {
+            //TODO Busca localizacao
+
+        } else {
+
+            val permission = Array(1, { android.Manifest.permission.ACCESS_FINE_LOCATION })
+
+            ActivityCompat.requestPermissions(this, permission, REQUEST_CODE_GPS_PERMISSION)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(REQUEST_CODE_GPS_PERMISSION == requestCode && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //TODO busca localizacao
         }
     }
 
