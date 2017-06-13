@@ -1,6 +1,8 @@
 package br.com.cucha.meucartao
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -33,6 +35,13 @@ class EditorActivity : AppCompatActivity() {
         editor.putString("FONE", editFone.text.toString())
 
         editor.apply()
+
+        val result = Intent()
+        result.putExtra("NOME", editNome.text.toString())
+        result.putExtra("EMAIL", editEmail.text.toString())
+        result.putExtra("FONE", editFone.text.toString())
+
+        setResult(Activity.RESULT_OK, result)
 
         finish()
     }
