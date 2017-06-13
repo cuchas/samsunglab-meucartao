@@ -14,7 +14,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/text_nome_editor"
+        android:id="@+id/edit_nome_editor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -25,7 +25,8 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/text_email_editor"
+        android:id="@+id/edit_email_editor"
+        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -36,7 +37,8 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/text_fone_editor"
+        android:id="@+id/edit_fone_editor"
+        android:inputType="phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
