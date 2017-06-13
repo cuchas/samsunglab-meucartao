@@ -8,12 +8,17 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.widget.EditText
+import android.widget.Toast
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.LocationServices
 
-class EditorActivity : AppCompatActivity() {
+class EditorActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks {
+
 
     lateinit var editNome: EditText
     lateinit var editEmail: EditText
     lateinit var editFone: EditText
+    lateinit var googleClient: GoogleApiClient
 
     companion object {
         val REQUEST_CODE_GPS_PERMISSION = 1001
@@ -22,6 +27,11 @@ class EditorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editor)
+
+        googleClient = GoogleApiClient.Builder(this)
+                .addApiIfAvailable(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .build()
 
         editNome = findViewById(R.id.edit_nome_editor) as EditText
         editEmail = findViewById(R.id.edit_email_editor) as EditText
@@ -38,7 +48,7 @@ class EditorActivity : AppCompatActivity() {
         val selfPermission = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
 
         if(selfPermission == PackageManager.PERMISSION_GRANTED) {
-            //TODO Busca localizacao
+            buscaLocalizacao()
 
         } else {
 
@@ -52,8 +62,12 @@ class EditorActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if(REQUEST_CODE_GPS_PERMISSION == requestCode && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            //TODO busca localizacao
+            buscaLocalizacao()
         }
+    }
+
+    fun buscaLocalizacao() {
+        googleClient.connect()
     }
 
     fun salvaCartao() {
@@ -74,5 +88,19 @@ class EditorActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, result)
 
         finish()
+    }
+
+    override fun onConnected(p0: Bundle?) {
+        val location = LocationServices.FusedLocationApi.getLastLocation(googleClient)
+
+        if(location != null) {
+            Toast.makeText(this, getString(R.string.localizacao_encontrada), Toast.LENGTH_LONG).show()
+        }
+
+        googleClient.disconnect()
+    }
+
+    override fun onConnectionSuspended(p0: Int) {
+
     }
 }
