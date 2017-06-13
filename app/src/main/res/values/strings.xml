@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MeuCartao</string>
+    <string name="nome">Nome</string>
+    <string name="email">Email</string>
+    <string name="fone">Telefone</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="editar">Editar</string>
+    <string name="salvar">Salvar</string>
+</resources>
